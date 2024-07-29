@@ -1,0 +1,29 @@
+{
+  "name": "clickup-service",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "": "dist/index.js",
+  "author": "drewerds",
+  "keywords": [
+    "clickup",
+    "api",
+    "service"
+  ],
+  "scripts": {
+    "build": "tsup src/ --format cjs,esm --dts",
+    "lint": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "description": "This is a fetch wrapper for the ClickUp API. It is designed to be used as a service in a larger application. It is currently very barebones and will require some customization and extension to be used in a production environment.",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@types/node": "^20.14.12",
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.2.3",
+    "typescript": "^5.5.4"
+  }
+}

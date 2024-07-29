@@ -1,0 +1,30 @@
+name: Build and publish
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types: [completed]
+    branches:
+      - "main"
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: build
+        run: npm run build
+
+      - name: Publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: npm publish
