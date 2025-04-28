@@ -191,12 +191,14 @@ export default class ClickUpHelper extends BaseService {
     data,
     type,
     queries,
+    options,
   }:
     | {
         queries?: {
           space?: URLSearchParams;
           task?: URLSearchParams;
         };
+        options?: FetchOptions;
       } & (
         | {
             data: string[];
@@ -212,10 +214,11 @@ export default class ClickUpHelper extends BaseService {
         type === "space"
           ? await Promise.all(
               data.map(
-                async (id) => await this.getSpace(id as string, queries?.space)
+                async (id) =>
+                  await this.getSpace(id as string, queries?.space, options)
               )
             )
-          : await this.getAllSpaces(data as string, queries?.space);
+          : await this.getAllSpaces(data as string, queries?.space, options);
 
       if (!spaces) {
         throw new Error("Failed to get spaces");
@@ -241,7 +244,8 @@ export default class ClickUpHelper extends BaseService {
     queries?: {
       folder?: URLSearchParams;
       task?: URLSearchParams;
-    }
+    },
+    options?: FetchOptions
   ): Promise<TeamData[] | null> {
     try {
       const spacesWithFolders = (
@@ -250,6 +254,7 @@ export default class ClickUpHelper extends BaseService {
             return {
               [name]: (await this.getFoldersFromSpace(id, {
                 query: queries?.folder,
+                fetchOptions: options,
               })) as Folder[],
             };
           })
