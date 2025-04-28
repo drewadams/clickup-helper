@@ -1,7 +1,6 @@
-import { APIResult, Folder, List, Space, Task, TeamData } from "../types";
+import { Folder, List, Space, Task, TeamData } from "../types";
 
 import BaseService from "./BaseService";
-import { writeFile } from "fs/promises";
 
 /**
  * ClickupTaskService class to interact with Clickup API. Requires an API key to be provided or in `.env` file.
@@ -25,6 +24,7 @@ export interface FetchOptions {
   method: string;
   body?: string;
   headers?: HeadersInit;
+  rateLimit?: number;
 }
 
 export default class ClickUpHelper extends BaseService {
