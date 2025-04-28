@@ -1,4 +1,4 @@
-import {
+import type {
   APIResult,
   Folder,
   List,
@@ -12,6 +12,7 @@ export interface FetchOptions {
   method: string;
   body?: string;
   headers?: HeadersInit;
+  rateLimit?: number;
 }
 
 export default class BaseService {
@@ -32,10 +33,14 @@ export default class BaseService {
    */
   async fetch(
     endpoint: string,
-    { method, body, headers }: FetchOptions = {
+    { method, body, headers, rateLimit }: FetchOptions = {
       method: "GET",
     }
   ) {
+    // If rateLimit is specified, delay the request
+    if (rateLimit) {
+      await new Promise((resolve) => setTimeout(resolve, rateLimit));
+    }
     const resp = await fetch(this.baseUrl + endpoint, {
       method: method,
       headers: {
